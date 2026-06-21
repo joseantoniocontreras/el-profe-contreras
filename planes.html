@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suscripción mensual — El Profe Contreras</title>
+<meta name="description" content="Suscríbete y accede a todo el catálogo de cursos, clases en vivo grupales y comunidad privada. Cancela cuando quieras.">
+<link rel="canonical" href="https://elprofecontreras.github.io/planes.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+<link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body>
+
+<div id="header-app"></div>
+
+<section class="encabezado-pagina">
+  <div class="contenedor">
+    <div class="miga-pan"><a href="index.html">Inicio</a> / Suscripción</div>
+    <h1>Acceso ilimitado a todo el catálogo, mes a mes</h1>
+    <p>Ideal si quieres seguir aprendiendo de forma constante, sin pagar curso por curso cada vez.</p>
+  </div>
+</section>
+
+<section class="seccion-compacta">
+  <div class="contenedor">
+    <div class="planes-grid" id="planes-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== QUÉ INCLUYE ===================== -->
+<section class="seccion-compacta" style="background:var(--crema-card)">
+  <div class="contenedor">
+    <div class="encabezado-seccion centrado">
+      <span class="eyebrow">Qué incluye tu suscripción</span>
+      <h2>Más que solo cursos grabados</h2>
+    </div>
+
+    <div class="razones-grid">
+      <div class="tarjeta-razon">
+        <div class="icono-razon violeta">🎬</div>
+        <h3>Catálogo completo</h3>
+        <p>Acceso a todos los cursos grabados, sin límite de tiempo mientras tu suscripción esté activa.</p>
+      </div>
+      <div class="tarjeta-razon">
+        <div class="icono-razon coral">🔴</div>
+        <h3>Clases en vivo grupales</h3>
+        <p>Sesiones mensuales en vivo donde resolvemos dudas y profundizamos en temas que pida la comunidad.</p>
+      </div>
+      <div class="tarjeta-razon">
+        <div class="icono-razon menta">👥</div>
+        <h3>Comunidad privada</h3>
+        <p>Grupo de WhatsApp exclusivo para suscriptores — comparte avances, dudas y conecta con otros estudiantes.</p>
+      </div>
+      <div class="tarjeta-razon">
+        <div class="icono-razon amarillo">🚫</div>
+        <h3>Sin permanencia obligatoria</h3>
+        <p>Cancela cuando quieras escribiéndome por WhatsApp. Sin letra chica, sin penalidades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="seccion-compacta">
+  <div class="contenedor">
+    <div class="encabezado-seccion centrado">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Antes de suscribirte</h2>
+    </div>
+
+    <div class="testimonios-grid">
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Puedo cancelar cuando quiera?</h3>
+        <p>Sí. Me escribes por WhatsApp y cancelamos tu suscripción desde el siguiente ciclo de pago, sin penalidades.</p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Cómo pago la suscripción?</h3>
+        <p>Por Yape, Plin o transferencia, igual que el resto de la plataforma. Ver <a href="como-pagar.html" style="color:var(--violeta);font-weight:700">cómo pagar →</a></p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Incluye la mentoría 1:1?</h3>
+        <p>El plan anual incluye acceso prioritario a cupos de mentoría, pero la mentoría en sí se cotiza aparte.</p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Qué pasa si me uno a mitad de mes?</h3>
+        <p>Tu acceso empieza apenas confirmamos el pago — no hay que esperar al inicio de mes para comenzar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contenedor seccion-compacta">
+  <div class="cta-final">
+    <h2>¿Tienes dudas sobre cuál plan elegir?</h2>
+    <p>Te ayudo a decidir según lo que estés buscando aprender.</p>
+    <div class="hero-acciones">
+      <a href="#" class="btn btn-coral btn-grande" data-whatsapp-general>💬 Preguntar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-app"></div>
+
+<script src="assets/js/datastore.js"></script>
+<script src="assets/js/componentes.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderizarPlanesEnPagina();
+});
+function renderizarPlanesEnPagina() {
+  const contenedor = document.getElementById('planes-grid');
+  if (!contenedor) return;
+  const planes = DataStore.getPlanesVisibles();
+  contenedor.innerHTML = planes.map(plan => `
+    <div class="tarjeta-plan ${plan.destacado ? 'destacado' : ''}">
+      ${plan.destacado ? '<span class="plan-badge">Más elegido</span>' : ''}
+      <span class="plan-nombre">${plan.nombre}</span>
+      <div class="plan-precio"><strong>S/ ${plan.precio}</strong><span>/ ${plan.periodo}</span></div>
+      <ul class="plan-beneficios">${plan.beneficios.map(b => `<li>${b}</li>`).join('')}</ul>
+      <button class="btn ${plan.destacado ? 'btn-coral' : 'btn-primario'}" onclick="abrirWhatsappPlan('${plan.nombre.replace(/'/g, "\\'")}')">Quiero suscribirme</button>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>
