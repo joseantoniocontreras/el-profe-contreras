@@ -1,23 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --grafito-950: #14201b;
-  --grafito-900: #1a2420;
-  --grafito-800: #233029;
-  --grafito-700: #324339;
-  --crema: #f3efe6;
-  --crema-suave: #faf8f3;
-  --ambar: #e8a33d;
-  --ambar-fuerte: #d68e26;
-  --salvia: #7ba88c;
-  --salvia-fuerte: #5c8a6f;
-  --terracota: #c25b3f;
-  --texto-principal: #1a2420;
-  --texto-secundario: #5c6b62;
-  --borde-suave: rgba(26, 36, 32, 0.12);
-  --sombra-suave: 0 4px 16px rgba(20, 32, 27, 0.08);
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', sans-serif;
+  --tinta: #14101F;
+  --violeta: #6D4CF2;
+  --violeta-oscuro: #4B2FD6;
+  --coral: #FF6B5B;
+  --coral-fuerte: #F5503D;
+  --menta: #1FC9A3;
+  --menta-fuerte: #0EA989;
+  --amarillo: #FFC43D;
+  --crema: #FBF8FF;
+  --gris-texto: #5B5470;
+  --gris-borde: rgba(28, 21, 48, 0.1);
+  --sombra-suave: 0 4px 16px rgba(28, 21, 48, 0.08);
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  /* Alias de compatibilidad con nombres anteriores usados más abajo en este archivo */
+  --grafito-950: var(--tinta);
+  --grafito-900: var(--tinta);
+  --grafito-800: #2B2440;
+  --ambar: var(--amarillo);
+  --ambar-fuerte: #E0AC1F;
+  --salvia: var(--menta);
+  --salvia-fuerte: var(--menta-fuerte);
+  --terracota: var(--coral-fuerte);
+  --texto-principal: var(--tinta);
+  --texto-secundario: var(--gris-texto);
+  --borde-suave: var(--gris-borde);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
