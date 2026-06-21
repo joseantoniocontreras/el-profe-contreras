@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo pagar — El Profe Contreras</title>
+<meta name="description" content="Paga tus cursos y mentorías con Yape, Plin o transferencia bancaria. Proceso simple guiado por WhatsApp.">
+<link rel="canonical" href="https://elprofecontreras.github.io/como-pagar.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+<link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body>
+
+<div id="header-app"></div>
+
+<section class="encabezado-pagina">
+  <div class="contenedor">
+    <div class="miga-pan"><a href="index.html">Inicio</a> / Cómo pagar</div>
+    <h1>Pagar es así de simple</h1>
+    <p>Sin tarjetas obligatorias, sin pasos complicados. Todo el proceso se confirma por WhatsApp.</p>
+  </div>
+</section>
+
+<section class="seccion-compacta">
+  <div class="contenedor">
+    <div class="pago-banner">
+      <div>
+        <h2>El proceso, paso a paso</h2>
+        <p>Así funciona la compra de cualquier curso, mentoría o plan de suscripción:</p>
+        <ol class="pago-pasos">
+          <li>Elige tu curso, mentoría o plan y escríbenos por WhatsApp</li>
+          <li>Confirmamos el detalle y el precio final contigo</li>
+          <li>Pagas por Yape, Plin o transferencia bancaria</li>
+          <li>Envías la captura del pago por WhatsApp</li>
+          <li>Te damos acceso inmediato al contenido o agendamos tu sesión</li>
+        </ol>
+      </div>
+
+      <div class="pago-metodos">
+        <div class="metodo-pago">
+          <div class="metodo-pago-icono icono-yape">Yape</div>
+          <div class="metodo-pago-info">
+            <strong>Yape: <span id="yape-numero">999 999 999</span></strong>
+            <span>A nombre de <span id="yape-titular">José Contreras</span></span>
+          </div>
+        </div>
+        <div class="metodo-pago">
+          <div class="metodo-pago-icono icono-plin">Plin</div>
+          <div class="metodo-pago-info">
+            <strong>Plin: <span id="plin-numero">999 999 999</span></strong>
+            <span>Confirmamos por WhatsApp tras el pago</span>
+          </div>
+        </div>
+        <div class="metodo-pago">
+          <div class="metodo-pago-icono icono-transfer">🏦</div>
+          <div class="metodo-pago-info">
+            <strong>Transferencia bancaria</strong>
+            <span>Datos de cuenta enviados por WhatsApp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PREGUNTAS DE PAGO ===================== -->
+<section class="seccion-compacta" style="background:var(--crema-card)">
+  <div class="contenedor">
+    <div class="encabezado-seccion centrado">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Sobre el pago y el acceso</h2>
+    </div>
+
+    <div class="testimonios-grid">
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Cuánto tarda en darme acceso?</h3>
+        <p>Apenas confirmo tu pago por WhatsApp (normalmente en minutos, en horario de oficina), te envío el acceso al curso o agendamos tu sesión.</p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Emiten boleta o factura?</h3>
+        <p>Coordinamos el comprobante que necesites directamente por WhatsApp al momento de confirmar tu compra.</p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Puedo pagar en partes?</h3>
+        <p>Para mentorías y capacitaciones de mayor inversión, conversamos la posibilidad de pago fraccionado caso por caso.</p>
+      </div>
+      <div class="tarjeta-testimonio">
+        <h3 style="font-size:16.5px;margin-bottom:10px">¿Qué pasa si me equivoco al pagar?</h3>
+        <p>Escríbeme de inmediato por WhatsApp con la captura del pago y lo resolvemos juntos sin problema.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contenedor seccion-compacta">
+  <div class="cta-final">
+    <h2>¿List@ para empezar?</h2>
+    <p>Escríbeme y te guío en todo el proceso de principio a fin.</p>
+    <div class="hero-acciones">
+      <a href="#" class="btn btn-coral btn-grande" data-whatsapp-general>💬 Chatear con alguien ahora</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-app"></div>
+
+<script src="assets/js/datastore.js"></script>
+<script src="assets/js/componentes.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const config = DataStore.getConfig();
+  document.getElementById('yape-numero').textContent = config.yapeNumero;
+  document.getElementById('yape-titular').textContent = config.yapeTitular;
+  document.getElementById('plin-numero').textContent = config.plinNumero;
+});
+</script>
+</body>
+</html>
