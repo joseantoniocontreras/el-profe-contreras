@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — El Profe Contreras</title>
+<meta name="description" content="Escríbeme por WhatsApp, sígueme en TikTok e Instagram, o entérate de mis próximas clases en vivo.">
+<link rel="canonical" href="https://elprofecontreras.github.io/contacto.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+<link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body>
+
+<div id="header-app"></div>
+
+<section class="encabezado-pagina">
+  <div class="contenedor">
+    <div class="miga-pan"><a href="index.html">Inicio</a> / Contacto</div>
+    <h1>Hablemos</h1>
+    <p>La forma más rápida de resolver tus dudas, inscribirte o cotizar un proyecto es por WhatsApp.</p>
+  </div>
+</section>
+
+<section class="seccion-compacta">
+  <div class="contenedor">
+    <div class="razones-grid">
+      <div class="tarjeta-razon">
+        <div class="icono-razon menta">💬</div>
+        <h3>WhatsApp directo</h3>
+        <p>Para inscripciones, dudas sobre cursos o cotizar mentorías y proyectos a medida.</p>
+        <div style="margin-top:18px">
+          <a href="#" class="btn btn-whatsapp" data-whatsapp-general>Escribir ahora →</a>
+        </div>
+      </div>
+
+      <div class="tarjeta-razon">
+        <div class="icono-razon coral">🔴</div>
+        <h3>Clases en vivo</h3>
+        <p id="texto-en-vivo-contacto">Transmito clases gratuitas de martes y jueves, de 7 a 9 pm, por TikTok Live.</p>
+        <div style="margin-top:18px" id="boton-en-vivo-contacto"></div>
+      </div>
+
+      <div class="tarjeta-razon">
+        <div class="icono-razon violeta">📱</div>
+        <h3>Redes sociales</h3>
+        <p>Sígueme para enterarte de clases en vivo, tips gratuitos y novedades de cursos.</p>
+        <div style="display:flex;gap:10px;margin-top:18px">
+          <a href="#" data-red="tiktok" target="_blank" rel="noopener" class="btn btn-ghost">TikTok</a>
+          <a href="#" data-red="instagram" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HORARIO DE TRANSMISIONES ===================== -->
+<section class="seccion-compacta" style="background:var(--crema-card)">
+  <div class="contenedor">
+    <div class="encabezado-seccion centrado">
+      <span class="eyebrow">Rutina de clases en vivo</span>
+      <h2>Cuándo encontrarme transmitiendo</h2>
+      <p>Clases gratuitas en TikTok Live para resolver dudas y mostrar mi forma de enseñar antes de que te inscribas a un curso.</p>
+    </div>
+
+    <div class="testimonios-grid">
+      <div class="tarjeta-testimonio" style="text-align:center">
+        <h3 style="font-size:18px;margin-bottom:8px">🗓️ Martes</h3>
+        <p style="font-size:20px;font-weight:700;color:var(--violeta)">7:00 pm – 9:00 pm</p>
+        <p style="margin-top:8px">Mini-clase + sesión de preguntas en vivo</p>
+      </div>
+      <div class="tarjeta-testimonio" style="text-align:center">
+        <h3 style="font-size:18px;margin-bottom:8px">🗓️ Jueves</h3>
+        <p style="font-size:20px;font-weight:700;color:var(--violeta)">7:00 pm – 9:00 pm</p>
+        <p style="margin-top:8px">Mini-clase + sesión de preguntas en vivo</p>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:32px;font-size:14px">Cuando estoy transmitiendo, vas a ver una franja roja en la parte superior del sitio que dice "EN VIVO" — haz clic ahí para entrar directo.</p>
+  </div>
+</section>
+
+<section class="contenedor seccion-compacta">
+  <div class="cta-final">
+    <h2>¿Tienes una pregunta puntual?</h2>
+    <p>Escríbeme directo, normalmente respondo el mismo día.</p>
+    <div class="hero-acciones">
+      <a href="#" class="btn btn-coral btn-grande" data-whatsapp-general>💬 Escribir por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-app"></div>
+
+<script src="assets/js/datastore.js"></script>
+<script src="assets/js/componentes.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const config = DataStore.getConfig();
+    const boton = document.getElementById('boton-en-vivo-contacto');
+    const texto = document.getElementById('texto-en-vivo-contacto');
+    if (config.enVivo && boton) {
+      texto.textContent = `🔴 Ahora mismo: ${config.enVivoTitulo} en ${config.enVivoPlataforma}`;
+      boton.innerHTML = `<a href="${config.enVivoUrl}" target="_blank" rel="noopener" class="btn btn-coral">Entrar a la transmisión →</a>`;
+    } else if (boton) {
+      boton.innerHTML = `<a href="#" class="btn btn-ghost" data-whatsapp-general>Avísame cuando esté en vivo</a>`;
+      configurarBotonesWhatsappLocal(config);
+    }
+  }, 50);
+});
+function configurarBotonesWhatsappLocal(config) {
+  const numero = config.whatsappNumero;
+  document.querySelectorAll('[data-whatsapp-general]').forEach(el => {
+    el.href = `https://wa.me/${numero}?text=${encodeURIComponent(config.whatsappMensaje)}`;
+  });
+}
+</script>
+</body>
+</html>
