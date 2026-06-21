@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración — El Profe Contreras</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="pantalla-login" id="pantalla-login">
+  <div class="tarjeta-login">
+    <div class="icono-login">🔐</div>
+    <h1>Panel de administración</h1>
+    <p class="subtitulo">Ingresa tu clave para gestionar cursos, planes y la página.</p>
+
+    <div class="mensaje-error-login" id="login-error"></div>
+
+    <form id="form-login">
+      <div class="campo">
+        <label for="input-clave">Clave de acceso</label>
+        <input type="password" id="input-clave" placeholder="••••••••" required autofocus>
+      </div>
+      <button type="submit" class="btn btn-primario btn-ancho">Ingresar</button>
+    </form>
+
+    <p class="campo-ayuda" style="margin-top:16px">La clave por defecto está definida en <code>admin.js</code>. Cámbiala ahí antes de compartir el acceso.</p>
+  </div>
+</div>
+
+<!-- ===================== PANEL ===================== -->
+<div class="pantalla-panel" id="pantalla-panel">
+  <div class="barra-superior">
+    <div class="marca-admin">
+      📚 El Profe Contreras <span class="badge-panel">Panel</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <a href="../index.html" class="enlace-ver-sitio" target="_blank">Ver sitio público ↗</a>
+      <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,0.3)" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="contenido-admin">
+    <div class="tabs-admin">
+      <button class="tab-admin activa" data-tab="cursos">📖 Cursos</button>
+      <button class="tab-admin" data-tab="planes">💳 Planes / Suscripción</button>
+      <button class="tab-admin" data-tab="envivo">🔴 Estado En Vivo</button>
+      <button class="tab-admin" data-tab="config">⚙️ Configuración general</button>
+      <button class="tab-admin" data-tab="suscriptores">📩 Boletín</button>
+    </div>
+
+    <!-- ===================== TAB: CURSOS ===================== -->
+    <div class="panel-tab visible" id="panel-cursos">
+      <div class="bloque">
+        <h2 id="titulo-form-curso">Agregar nuevo curso</h2>
+        <p class="descripcion-bloque">Estos datos aparecen tal cual en las tarjetas del sitio público.</p>
+
+        <form id="form-curso">
+          <input type="hidden" id="curso-id">
+          <div class="grid-form">
+            <div class="campo campo-ancho-completo">
+              <label for="curso-titulo">Título del curso</label>
+              <input type="text" id="curso-titulo" placeholder="Ej: Canva para crear piezas que sí venden" required>
+            </div>
+
+            <div class="campo">
+              <label for="curso-categoria">Categoría</label>
+              <input type="text" id="curso-categoria" placeholder="Ej: Diseño gráfico" required>
+            </div>
+
+            <div class="campo">
+              <label for="curso-nivel">Nivel</label>
+              <select id="curso-nivel">
+                <option>Principiante</option>
+                <option>Intermedio</option>
+                <option>Avanzado</option>
+                <option>Todo nivel</option>
+                <option>Profesional</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="curso-modalidad">Modalidad</label>
+              <input type="text" id="curso-modalidad" placeholder="Ej: Grabado + Q&A en vivo" required>
+            </div>
+
+            <div class="campo">
+              <label for="curso-duracion">Duración</label>
+              <input type="text" id="curso-duracion" placeholder="Ej: 6 sesiones · 8 horas" required>
+            </div>
+
+            <div class="campo">
+              <label for="curso-precio">Precio (S/)</label>
+              <input type="number" id="curso-precio" min="0" step="1" required>
+            </div>
+
+            <div class="campo">
+              <label for="curso-precio-antes">Precio anterior (opcional, para mostrar descuento)</label>
+              <input type="number" id="curso-precio-antes" min="0" step="1">
+            </div>
+
+            <div class="campo">
+              <label for="curso-portada">Color de portada</label>
+              <select id="curso-portada">
+                <option value="gradient-1">Ámbar–Salvia</option>
+                <option value="gradient-2">Grafito oscuro</option>
+                <option value="gradient-3">Terracota–Ámbar</option>
+                <option value="gradient-4">Verde profundo</option>
+                <option value="gradient-5">Ámbar–Terracota</option>
+                <option value="gradient-6">Salvia–Grafito</option>
+              </select>
+            </div>
+
+            <div class="campo campo-checkbox">
+              <input type="checkbox" id="curso-destacado">
+              <label for="curso-destacado">Marcar como "Top ventas"</label>
+            </div>
+
+            <div class="campo campo-ancho-completo">
+              <label for="curso-resumen">Resumen breve (opcional)</label>
+              <textarea id="curso-resumen" placeholder="1-2 líneas describiendo qué aprenderá el alumno"></textarea>
+            </div>
+          </div>
+
+          <div class="acciones-form">
+            <button type="submit" class="btn btn-ambar">Guardar curso</button>
+            <button type="button" class="btn btn-ghost" id="btn-cancelar-edicion-curso">Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bloque">
+        <h2>Cursos publicados</h2>
+        <p class="descripcion-bloque">Edita, oculta o elimina cualquier curso. Los ocultos no aparecen en el sitio público pero quedan guardados.</p>
+        <div class="tabla-wrap">
+          <table class="tabla-admin">
+            <thead>
+              <tr><th>Curso</th><th>Precio</th><th>Modalidad</th><th>Alumnos</th><th>Estado</th><th>Acciones</th></tr>
+            </thead>
+            <tbody id="tbody-cursos"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TAB: PLANES ===================== -->
+    <div class="panel-tab" id="panel-planes">
+      <div class="bloque">
+        <h2>Agregar / editar plan de suscripción</h2>
+        <p class="descripcion-bloque">Escribe un beneficio por línea — cada línea se muestra como un ítem con check en la tarjeta del plan.</p>
+
+        <form id="form-plan">
+          <input type="hidden" id="plan-id">
+          <div class="grid-form">
+            <div class="campo">
+              <label for="plan-nombre">Nombre del plan</label>
+              <input type="text" id="plan-nombre" placeholder="Ej: Suscripción mensual" required>
+            </div>
+            <div class="campo">
+              <label for="plan-precio">Precio (S/)</label>
+              <input type="number" id="plan-precio" min="0" step="1" required>
+            </div>
+            <div class="campo">
+              <label for="plan-periodo">Periodo (texto libre)</label>
+              <input type="text" id="plan-periodo" placeholder="Ej: mes" required>
+            </div>
+            <div class="campo campo-checkbox">
+              <input type="checkbox" id="plan-destacado">
+              <label for="plan-destacado">Marcar como "Más elegido"</label>
+            </div>
+            <div class="campo campo-ancho-completo">
+              <label for="plan-beneficios">Beneficios (uno por línea)</label>
+              <textarea id="plan-beneficios" rows="4" placeholder="Acceso a todos los cursos grabados&#10;Clases en vivo mensuales&#10;Comunidad privada de WhatsApp" required></textarea>
+            </div>
+          </div>
+          <div class="acciones-form">
+            <button type="submit" class="btn btn-ambar">Guardar plan</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bloque">
+        <h2>Planes activos</h2>
+        <div class="tabla-wrap">
+          <table class="tabla-admin">
+            <thead><tr><th>Plan</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-planes"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TAB: EN VIVO ===================== -->
+    <div class="panel-tab" id="panel-envivo">
+      <div class="bloque">
+        <h2>Control de transmisión en vivo</h2>
+        <p class="descripcion-bloque">Actívalo justo cuando empieces tu TikTok Live o clase en vivo. Aparece como franja destacada arriba del sitio y como aviso en el footer.</p>
+
+        <div id="indicador-envivo-estado" class="indicador-envivo inactivo"></div>
+
+        <form id="form-envivo">
+          <div class="switch-envivo-wrap">
+            <label class="switch">
+              <input type="checkbox" id="envivo-switch">
+              <span class="switch-slider"></span>
+            </label>
+            <div class="switch-label">
+              Activar aviso "EN VIVO" en el sitio
+              <span>Se muestra apenas guardas este formulario</span>
+            </div>
+          </div>
+
+          <div class="grid-form">
+            <div class="campo campo-ancho-completo">
+              <label for="envivo-titulo">Título de la transmisión / clase</label>
+              <input type="text" id="envivo-titulo" placeholder="Ej: Canva para negocios">
+            </div>
+            <div class="campo">
+              <label for="envivo-plataforma">Plataforma</label>
+              <input type="text" id="envivo-plataforma" placeholder="Ej: TikTok Live, Zoom, Google Meet">
+            </div>
+            <div class="campo">
+              <label for="envivo-url">Enlace para entrar</label>
+              <input type="url" id="envivo-url" placeholder="https://www.tiktok.com/@tuusuario/live">
+            </div>
+          </div>
+
+          <div class="acciones-form">
+            <button type="submit" class="btn btn-ambar">Guardar y actualizar estado</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================== TAB: CONFIGURACIÓN GENERAL ===================== -->
+    <div class="panel-tab" id="panel-config">
+      <div class="bloque">
+        <h2>Datos generales del sitio</h2>
+        <p class="descripcion-bloque">Marca, WhatsApp, métodos de pago y redes sociales. Se aplican en todo el sitio público.</p>
+
+        <form id="form-config">
+          <h3 style="font-size:14px;margin-bottom:12px;color:var(--texto-secundario)">MARCA</h3>
+          <div class="grid-form" style="margin-bottom:24px">
+            <div class="campo">
+              <label for="config-nombre-marca">Nombre de la marca</label>
+              <input type="text" id="config-nombre-marca" required>
+            </div>
+            <div class="campo">
+              <label for="config-tagline">Frase / tagline corto</label>
+              <input type="text" id="config-tagline" required>
+            </div>
+          </div>
+
+          <h3 style="font-size:14px;margin-bottom:12px;color:var(--texto-secundario)">WHATSAPP</h3>
+          <div class="grid-form" style="margin-bottom:24px">
+            <div class="campo">
+              <label for="config-whatsapp-numero">Número de WhatsApp (solo dígitos, con código de país)</label>
+              <input type="text" id="config-whatsapp-numero" placeholder="51999999999" required>
+              <span class="campo-ayuda">Perú: empieza con 51, sin + ni espacios. Ej: 51987654321</span>
+            </div>
+            <div class="campo">
+              <label for="config-whatsapp-mensaje">Mensaje automático general</label>
+              <input type="text" id="config-whatsapp-mensaje" required>
+            </div>
+          </div>
+
+          <h3 style="font-size:14px;margin-bottom:12px;color:var(--texto-secundario)">MÉTODOS DE PAGO</h3>
+          <div class="grid-form" style="margin-bottom:24px">
+            <div class="campo">
+              <label for="config-yape-numero">Número Yape</label>
+              <input type="text" id="config-yape-numero" required>
+            </div>
+            <div class="campo">
+              <label for="config-yape-titular">Titular de Yape</label>
+              <input type="text" id="config-yape-titular" required>
+            </div>
+            <div class="campo">
+              <label for="config-plin-numero">Número Plin</label>
+              <input type="text" id="config-plin-numero" required>
+            </div>
+          </div>
+
+          <h3 style="font-size:14px;margin-bottom:12px;color:var(--texto-secundario)">REDES SOCIALES</h3>
+          <div class="grid-form">
+            <div class="campo">
+              <label for="config-tiktok">TikTok (URL completa)</label>
+              <input type="url" id="config-tiktok" placeholder="https://www.tiktok.com/@usuario">
+            </div>
+            <div class="campo">
+              <label for="config-instagram">Instagram (URL completa)</label>
+              <input type="url" id="config-instagram" placeholder="https://www.instagram.com/usuario">
+            </div>
+            <div class="campo">
+              <label for="config-facebook">Facebook (URL completa)</label>
+              <input type="url" id="config-facebook" placeholder="https://www.facebook.com/usuario">
+            </div>
+          </div>
+
+          <div class="acciones-form">
+            <button type="submit" class="btn btn-ambar">Guardar configuración</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================== TAB: SUSCRIPTORES ===================== -->
+    <div class="panel-tab" id="panel-suscriptores">
+      <div class="bloque">
+        <h2>Suscriptores del boletín (<span id="contador-suscriptores">0</span>)</h2>
+        <p class="descripcion-bloque">Personas que dejaron su correo en el popup del sitio. Expórtalos para tus futuras campañas de email marketing.</p>
+
+        <div class="acciones-form" style="margin-bottom:20px">
+          <button class="btn btn-primario" id="btn-exportar-csv">⬇ Exportar a CSV</button>
+        </div>
+
+        <div class="tabla-wrap">
+          <table class="tabla-admin">
+            <thead><tr><th>Correo</th><th>Fecha de suscripción</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-suscriptores"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODAL CONFIRMAR BORRADO ===================== -->
+<div class="modal-overlay" id="modal-confirmar-borrado">
+  <div class="modal-caja">
+    <h3>¿Eliminar curso?</h3>
+    <p id="texto-confirmar-borrado"></p>
+    <div class="modal-acciones">
+      <button class="btn btn-ghost" onclick="cerrarModalBorrado()">Cancelar</button>
+      <button class="btn btn-primario" style="background:var(--terracota)" onclick="ejecutarEliminarCurso()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== AVISO FLOTANTE ===================== -->
+<div class="aviso-flotante" id="aviso-flotante"></div>
+
+<script src="../assets/js/datastore.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
