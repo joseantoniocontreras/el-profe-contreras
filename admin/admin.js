@@ -51,11 +51,13 @@ function mostrarPanel() {
 // ===================== INICIALIZACIÓN DEL PANEL =====================
 function inicializarPanel() {
   configurarTabs();
+  renderizarTablaSlides();
   renderizarTablaCursos();
   renderizarTablaPlanes();
   cargarFormularioConfig();
   cargarEstadoEnVivo();
   renderizarListaSuscriptores();
+  configurarFormularioSlide();
   configurarFormularioCurso();
   configurarFormularioPlan();
   configurarFormularioConfig();
@@ -74,6 +76,114 @@ function configurarTabs() {
       document.getElementById(`panel-${tab.dataset.tab}`).classList.add('visible');
     });
   });
+}
+
+// ===================== HERO / SLIDES: TABLA Y CRUD =====================
+function renderizarTablaSlides() {
+  const tbody = document.getElementById('tbody-slides');
+  const slides = DataStore.getSlides().sort((a, b) => a.orden - b.orden);
+
+  if (slides.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" class="celda-vacia">No hay slides. Agrega al menos uno para que el inicio tenga hero.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = slides
+    .map(
+      slide => `
+    <tr>
+      <td><strong>${escapeHtml(slide.titulo)}</strong></td>
+      <td>${escapeHtml(slide.botonTexto)} → ${escapeHtml(slide.botonEnlace)}</td>
+      <td>
+        <span class="badge-estado ${slide.visible ? 'badge-visible' : 'badge-oculto'}">
+          ${slide.visible ? 'Visible' : 'Oculto'}
+        </span>
+      </td>
+      <td class="celda-acciones">
+        <button class="btn-accion" onclick="editarSlide('${slide.id}')" title="Editar">✏️</button>
+        <button class="btn-accion" onclick="alternarVisibilidadSlide('${slide.id}')" title="Mostrar/ocultar">${slide.visible ? '🙈' : '👁️'}</button>
+        <button class="btn-accion btn-peligro" onclick="eliminarSlideConfirm('${slide.id}')" title="Eliminar">🗑️</button>
+      </td>
+    </tr>
+  `
+    )
+    .join('');
+}
+
+function configurarFormularioSlide() {
+  const form = document.getElementById('form-slide');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const id = document.getElementById('slide-id').value || null;
+    const slide = {
+      id,
+      eyebrow: document.getElementById('slide-eyebrow').value.trim(),
+      titulo: document.getElementById('slide-titulo').value.trim(),
+      tituloAcento: document.getElementById('slide-acento').value.trim(),
+      texto: document.getElementById('slide-texto').value.trim(),
+      fondo: document.getElementById('slide-fondo').value,
+      ilustracion: document.getElementById('slide-ilustracion').value,
+      botonTexto: document.getElementById('slide-boton-texto').value.trim(),
+      botonEnlace: document.getElementById('slide-boton-enlace').value,
+    };
+
+    if (!slide.titulo || !slide.texto || !slide.botonTexto) {
+      mostrarAviso('Completa al menos título, texto y botón.', 'error');
+      return;
+    }
+
+    if (id) {
+      const existente = DataStore.getSlides().find(s => s.id === id);
+      slide.orden = existente?.orden ?? 999;
+      slide.visible = existente?.visible ?? true;
+    }
+
+    DataStore.guardarSlide(slide);
+    form.reset();
+    document.getElementById('slide-id').value = '';
+    document.getElementById('titulo-form-slide').textContent = 'Agregar nuevo slide del hero';
+    renderizarTablaSlides();
+    mostrarAviso(id ? 'Slide actualizado.' : 'Slide agregado.', 'exito');
+  });
+
+  document.getElementById('btn-cancelar-edicion-slide').addEventListener('click', () => {
+    form.reset();
+    document.getElementById('slide-id').value = '';
+    document.getElementById('titulo-form-slide').textContent = 'Agregar nuevo slide del hero';
+  });
+}
+
+function editarSlide(id) {
+  const slide = DataStore.getSlides().find(s => s.id === id);
+  if (!slide) return;
+
+  document.getElementById('slide-id').value = slide.id;
+  document.getElementById('slide-eyebrow').value = slide.eyebrow;
+  document.getElementById('slide-titulo').value = slide.titulo;
+  document.getElementById('slide-acento').value = slide.tituloAcento || '';
+  document.getElementById('slide-texto').value = slide.texto;
+  document.getElementById('slide-fondo').value = slide.fondo;
+  document.getElementById('slide-ilustracion').value = slide.ilustracion;
+  document.getElementById('slide-boton-texto').value = slide.botonTexto;
+  document.getElementById('slide-boton-enlace').value = slide.botonEnlace;
+  document.getElementById('titulo-form-slide').textContent = `Editando: ${slide.titulo}`;
+
+  document.getElementById('form-slide').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function alternarVisibilidadSlide(id) {
+  DataStore.toggleVisibilidadSlide(id);
+  renderizarTablaSlides();
+}
+
+function eliminarSlideConfirm(id) {
+  if (confirm('¿Eliminar este slide del hero?')) {
+    DataStore.eliminarSlide(id);
+    renderizarTablaSlides();
+    mostrarAviso('Slide eliminado.', 'exito');
+  }
 }
 
 // ===================== CURSOS: TABLA Y CRUD =====================
