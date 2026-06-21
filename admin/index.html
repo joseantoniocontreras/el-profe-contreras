@@ -44,15 +44,99 @@
 
   <div class="contenido-admin">
     <div class="tabs-admin">
-      <button class="tab-admin activa" data-tab="cursos">📖 Cursos</button>
+      <button class="tab-admin activa" data-tab="hero">🎬 Hero (inicio)</button>
+      <button class="tab-admin" data-tab="cursos">📖 Cursos</button>
       <button class="tab-admin" data-tab="planes">💳 Planes / Suscripción</button>
       <button class="tab-admin" data-tab="envivo">🔴 Estado En Vivo</button>
       <button class="tab-admin" data-tab="config">⚙️ Configuración general</button>
       <button class="tab-admin" data-tab="suscriptores">📩 Boletín</button>
     </div>
 
+    <!-- ===================== TAB: HERO / SLIDES ===================== -->
+    <div class="panel-tab visible" id="panel-hero">
+      <div class="bloque">
+        <h2 id="titulo-form-slide">Agregar nuevo slide del hero</h2>
+        <p class="descripcion-bloque">Estos son los slides que rotan en la portada de tu página de inicio. El texto entre el título y el "acento" se resalta en amarillo automáticamente si coincide exactamente.</p>
+
+        <form id="form-slide">
+          <input type="hidden" id="slide-id">
+          <div class="grid-form">
+            <div class="campo campo-ancho-completo">
+              <label for="slide-eyebrow">Etiqueta superior (con emoji opcional)</label>
+              <input type="text" id="slide-eyebrow" placeholder="Ej: 📖 Aprende con quien lo aplica todos los días" required>
+            </div>
+
+            <div class="campo campo-ancho-completo">
+              <label for="slide-titulo">Título principal</label>
+              <input type="text" id="slide-titulo" placeholder="Ej: Aprende diseño, IA y marketing con resultados reales" required>
+            </div>
+
+            <div class="campo campo-ancho-completo">
+              <label for="slide-acento">Palabra(s) a resaltar en amarillo (debe coincidir exactamente con parte del título)</label>
+              <input type="text" id="slide-acento" placeholder="Ej: diseño, IA y marketing">
+            </div>
+
+            <div class="campo campo-ancho-completo">
+              <label for="slide-texto">Texto de apoyo (1-2 líneas)</label>
+              <textarea id="slide-texto" required></textarea>
+            </div>
+
+            <div class="campo">
+              <label for="slide-fondo">Color de fondo</label>
+              <select id="slide-fondo">
+                <option value="hero-slide-bg-1">Violeta</option>
+                <option value="hero-slide-bg-2">Verde menta</option>
+                <option value="hero-slide-bg-3">Coral</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="slide-ilustracion">Ilustración</label>
+              <select id="slide-ilustracion">
+                <option value="pantalla">Pantalla / clase</option>
+                <option value="transmision">Transmisión en vivo</option>
+                <option value="pago">Pago / Yape</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="slide-boton-texto">Texto del botón</label>
+              <input type="text" id="slide-boton-texto" placeholder="Ej: Ver todos los cursos" required>
+            </div>
+
+            <div class="campo">
+              <label for="slide-boton-enlace">Enlace del botón (página del sitio)</label>
+              <select id="slide-boton-enlace">
+                <option value="cursos.html">Cursos</option>
+                <option value="mentorias.html">Mentorías</option>
+                <option value="planes.html">Suscripción</option>
+                <option value="como-pagar.html">Cómo pagar</option>
+                <option value="contacto.html">Contacto</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="acciones-form">
+            <button type="submit" class="btn btn-ambar">Guardar slide</button>
+            <button type="button" class="btn btn-ghost" id="btn-cancelar-edicion-slide">Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bloque">
+        <h2>Slides activos</h2>
+        <p class="descripcion-bloque">Rotan automáticamente cada 6 segundos en el orden que aparecen aquí. Necesitas al menos 1 slide visible.</p>
+        <div class="tabla-wrap">
+          <table class="tabla-admin">
+            <thead><tr><th>Título</th><th>Botón</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-slides"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- ===================== TAB: CURSOS ===================== -->
-    <div class="panel-tab visible" id="panel-cursos">
+    <div class="panel-tab" id="panel-cursos">
       <div class="bloque">
         <h2 id="titulo-form-curso">Agregar nuevo curso</h2>
         <p class="descripcion-bloque">Estos datos aparecen tal cual en las tarjetas del sitio público.</p>
