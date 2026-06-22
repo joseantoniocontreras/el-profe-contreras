@@ -220,8 +220,22 @@ function renderizarTablaCursos() {
     .join('');
 }
 
+function actualizarPreviewImagen(url) {
+  const preview = document.getElementById('preview-imagen-curso');
+  if (!preview) return;
+  if (url) {
+    preview.innerHTML = `<img src="${url}" alt="Vista previa" onerror="this.parentElement.innerHTML='<span>URL inválida o imagen no accesible</span>'">`;
+  } else {
+    preview.innerHTML = '<span>Vista previa de la imagen aquí</span>';
+  }
+}
+
 function configurarFormularioCurso() {
   const form = document.getElementById('form-curso');
+
+  // Preview de imagen en tiempo real
+  const inputImagen = document.getElementById('curso-imagen-url');
+  inputImagen.addEventListener('input', () => actualizarPreviewImagen(inputImagen.value.trim()));
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -241,6 +255,7 @@ function configurarFormularioCurso() {
       destacado: document.getElementById('curso-destacado').checked,
       portada: document.getElementById('curso-portada').value,
       resumen: document.getElementById('curso-resumen').value.trim(),
+      imagenUrl: document.getElementById('curso-imagen-url').value.trim(),
       visible: true,
     };
 
@@ -287,6 +302,8 @@ function editarCurso(id) {
   document.getElementById('curso-destacado').checked = curso.destacado;
   document.getElementById('curso-portada').value = curso.portada;
   document.getElementById('curso-resumen').value = curso.resumen || '';
+  document.getElementById('curso-imagen-url').value = curso.imagenUrl || '';
+  actualizarPreviewImagen(curso.imagenUrl || '');
   document.getElementById('titulo-form-curso').textContent = `Editando: ${curso.titulo}`;
 
   document.getElementById('form-curso').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -420,13 +437,40 @@ function cargarFormularioConfig() {
   document.getElementById('config-tiktok').value = config.redes.tiktok || '';
   document.getElementById('config-instagram').value = config.redes.instagram || '';
   document.getElementById('config-facebook').value = config.redes.facebook || '';
+
+  // Cargar espaciado guardado y marcar el botón activo
+  const nivelGuardado = config.espaciadoSeccion || 'normal';
+  document.getElementById('config-espaciado').value = nivelGuardado;
+  marcarBtnEspacioActivo(nivelGuardado);
+}
+
+function marcarBtnEspacioActivo(nivel) {
+  document.querySelectorAll('.btn-espacio').forEach(btn => {
+    btn.classList.toggle('activo', btn.dataset.nivel === nivel);
+  });
+}
+
+function configurarSelectorEspaciado() {
+  document.querySelectorAll('.btn-espacio').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nivel = btn.dataset.nivel;
+      document.getElementById('config-espaciado').value = nivel;
+      marcarBtnEspacioActivo(nivel);
+      // Vista previa en tiempo real en el propio panel
+      DataStore.setEspaciado(nivel);
+      mostrarAviso(`Espaciado cambiado a "${nivel}" — guarda la configuración para aplicarlo permanentemente.`, 'exito');
+    });
+  });
 }
 
 function configurarFormularioConfig() {
   const form = document.getElementById('form-config');
+  configurarSelectorEspaciado();
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+
+    const espaciado = document.getElementById('config-espaciado').value || 'normal';
 
     DataStore.guardarConfig({
       nombreMarca: document.getElementById('config-nombre-marca').value.trim(),
@@ -436,6 +480,7 @@ function configurarFormularioConfig() {
       yapeNumero: document.getElementById('config-yape-numero').value.trim(),
       yapeTitular: document.getElementById('config-yape-titular').value.trim(),
       plinNumero: document.getElementById('config-plin-numero').value.trim(),
+      espaciadoSeccion: espaciado,
       redes: {
         tiktok: document.getElementById('config-tiktok').value.trim(),
         instagram: document.getElementById('config-instagram').value.trim(),
@@ -443,7 +488,8 @@ function configurarFormularioConfig() {
       },
     });
 
-    mostrarAviso('Configuración guardada. Los cambios se verán al recargar el sitio público.', 'exito');
+    DataStore.setEspaciado(espaciado);
+    mostrarAviso('Configuración guardada. Los cambios se verán en todo el sitio al recargar.', 'exito');
   });
 }
 
