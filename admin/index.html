@@ -206,6 +206,15 @@
               <label for="curso-resumen">Resumen breve (opcional)</label>
               <textarea id="curso-resumen" placeholder="1-2 líneas describiendo qué aprenderá el alumno"></textarea>
             </div>
+
+            <div class="campo campo-ancho-completo">
+              <label for="curso-imagen-url">Imagen de portada (URL — opcional)</label>
+              <input type="url" id="curso-imagen-url" placeholder="https://images.unsplash.com/... o URL de tu propia imagen">
+              <span class="campo-ayuda">Pega la URL de cualquier imagen pública. Si la dejas vacía, se usará el color de gradiente seleccionado arriba. Usa Unsplash.com para imágenes gratuitas.</span>
+              <div class="campo-imagen-preview" id="preview-imagen-curso">
+                <span>Vista previa de la imagen aquí</span>
+              </div>
+            </div>
           </div>
 
           <div class="acciones-form">
@@ -363,6 +372,37 @@
             <div class="campo">
               <label for="config-plin-numero">Número Plin</label>
               <input type="text" id="config-plin-numero" required>
+            </div>
+          </div>
+
+          <h3 style="font-size:14px;margin-bottom:12px;color:var(--texto-secundario)">ESPACIADO ENTRE SECCIONES</h3>
+          <div class="grid-form" style="margin-bottom:24px">
+            <div class="campo campo-ancho-completo">
+              <label>Nivel de espacio entre secciones en todo el sitio</label>
+              <div class="selector-espaciado" id="selector-espaciado">
+                <button type="button" class="btn-espacio" data-nivel="compacto">
+                  <span class="espacio-icono">▬</span>
+                  <strong>Compacto</strong>
+                  <span>44 px</span>
+                </button>
+                <button type="button" class="btn-espacio activo" data-nivel="normal">
+                  <span class="espacio-icono">▬▬</span>
+                  <strong>Normal</strong>
+                  <span>80 px</span>
+                </button>
+                <button type="button" class="btn-espacio" data-nivel="amplio">
+                  <span class="espacio-icono">▬▬▬</span>
+                  <strong>Amplio</strong>
+                  <span>116 px</span>
+                </button>
+                <button type="button" class="btn-espacio" data-nivel="muy-amplio">
+                  <span class="espacio-icono">▬▬▬▬</span>
+                  <strong>Muy amplio</strong>
+                  <span>160 px</span>
+                </button>
+              </div>
+              <input type="hidden" id="config-espaciado" value="normal">
+              <span class="campo-ayuda">El cambio se aplica en todas las páginas del sitio al mismo tiempo.</span>
             </div>
           </div>
 
