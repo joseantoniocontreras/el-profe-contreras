@@ -41,9 +41,20 @@ function renderizarCursos(filtroCategoria = 'Todos', soloDestacados = false, lim
 
 function tarjetaCursoHTML(curso) {
   const ahorro = curso.precioAntes ? `<del>S/ ${curso.precioAntes}</del>` : '';
+
+  // Si el curso tiene imagen real (URL), la usamos como fondo
+  // Si no, usamos el gradiente de color como antes
+  const tieneImagen = curso.imagenUrl && curso.imagenUrl.trim() !== '';
+  const estiloImagen = tieneImagen
+    ? `style="background-image: url('${escAttr(curso.imagenUrl)}')"` 
+    : '';
+  const claseImagen = tieneImagen
+    ? `${curso.portada} tiene-imagen`
+    : curso.portada;
+
   return `
     <article class="tarjeta-curso">
-      <div class="tarjeta-curso-img ${curso.portada}">
+      <div class="tarjeta-curso-img ${claseImagen}" ${estiloImagen}>
         <span class="tarjeta-curso-cat">${escHtml(curso.categoria)}</span>
         ${curso.destacado ? '<span class="tarjeta-curso-destacado">Top ventas</span>' : ''}
       </div>
