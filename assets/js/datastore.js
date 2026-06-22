@@ -114,6 +114,7 @@ const DataStore = (() => {
       alumnos: 47,
       rating: 4.9,
       portada: 'gradient-1',
+      imagenUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80',
       resumen: 'Domina Canva Pro desde cero: flyers, posts, banners y branding básico, con ejercicios reales de negocio.',
       visible: true,
       orden: 1,
@@ -131,6 +132,7 @@ const DataStore = (() => {
       alumnos: 33,
       rating: 5.0,
       portada: 'gradient-2',
+      imagenUrl: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80',
       resumen: 'Prompts y flujos prácticos con ChatGPT para automatizar reportes, correos y tareas repetitivas de oficina.',
       visible: true,
       orden: 2,
@@ -148,6 +150,7 @@ const DataStore = (() => {
       alumnos: 21,
       rating: 4.8,
       portada: 'gradient-3',
+      imagenUrl: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=600&q=80',
       resumen: 'Estrategia de redes, contenido y captación de clientes con presupuesto real de una pyme peruana.',
       visible: true,
       orden: 3,
@@ -165,6 +168,7 @@ const DataStore = (() => {
       alumnos: 58,
       rating: 4.7,
       portada: 'gradient-4',
+      imagenUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
       resumen: 'Fórmulas, tablas y reportes simples para resolver tu trabajo administrativo sin enredarte.',
       visible: true,
       orden: 4,
@@ -182,6 +186,7 @@ const DataStore = (() => {
       alumnos: 15,
       rating: 4.9,
       portada: 'gradient-5',
+      imagenUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80',
       resumen: 'Vectores, tipografía y composición aplicados a contenido publicitario real para Instagram y TikTok.',
       visible: true,
       orden: 5,
@@ -199,6 +204,7 @@ const DataStore = (() => {
       alumnos: 9,
       rating: 5.0,
       portada: 'gradient-6',
+      imagenUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
       resumen: 'Diagnóstico de tus procesos de TI, marketing o comunicación y plan de acción acompañado paso a paso.',
       visible: true,
       orden: 6,
@@ -247,12 +253,27 @@ const DataStore = (() => {
     yapeNumero: '999 999 999',
     yapeTitular: 'José Contreras',
     plinNumero: '999 999 999',
+    espaciadoSeccion: 'normal', // compacto | normal | amplio | muy-amplio
     redes: {
       tiktok: 'https://www.tiktok.com/@elprofecontreras',
       instagram: 'https://www.instagram.com/elprofecontreras',
       facebook: 'https://www.facebook.com/elprofecontreras',
     },
   };
+
+  // Mapa de niveles de espaciado → valor CSS en píxeles
+  const MAPA_ESPACIADO = {
+    'compacto':    { seccion: '44px',  movil: '28px' },
+    'normal':      { seccion: '80px',  movil: '44px' },
+    'amplio':      { seccion: '116px', movil: '60px' },
+    'muy-amplio':  { seccion: '160px', movil: '80px' },
+  };
+
+  function aplicarEspaciadoDOM(nivel) {
+    const valores = MAPA_ESPACIADO[nivel] || MAPA_ESPACIADO['normal'];
+    document.documentElement.style.setProperty('--espacio-seccion', valores.seccion);
+    document.documentElement.style.setProperty('--espacio-seccion-movil', valores.movil);
+  }
 
   // ---------- API pública del DataStore ----------
   return {
@@ -447,6 +468,27 @@ const DataStore = (() => {
       const filas = ['email,fecha'];
       suscriptores.forEach(s => filas.push(`${s.email},${s.fecha}`));
       return filas.join('\n');
+    },
+
+    // ESPACIADO — se aplica en todas las páginas al cargar
+    getEspaciado() {
+      return this.getConfig().espaciadoSeccion || 'normal';
+    },
+
+    setEspaciado(nivel) {
+      this.guardarConfig({ espaciadoSeccion: nivel });
+      aplicarEspaciadoDOM(nivel);
+      return nivel;
+    },
+
+    aplicarEspaciadoGuardado() {
+      const nivel = this.getEspaciado();
+      aplicarEspaciadoDOM(nivel);
+    },
+
+    // RESET CURSOS (para refrescar semilla con las imágenes nuevas)
+    resetCursos() {
+      localStorage.removeItem(KEYS.CURSOS);
     },
 
     // RESET (útil en desarrollo/pruebas)
