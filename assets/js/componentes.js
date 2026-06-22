@@ -139,6 +139,9 @@ function inicializarComponentes() {
   renderizarHeader(config);
   renderizarFooter(config);
 
+  // Aplicar espaciado guardado — se ejecuta en TODAS las páginas
+  DataStore.aplicarEspaciadoGuardado();
+
   aplicarConfigGeneral(config);
   aplicarEstadoEnVivo(config);
   configurarBotonesWhatsapp(config);
